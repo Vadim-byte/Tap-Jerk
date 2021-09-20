@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
         set { if ((value > 0) && (value < allTurns.Count)) _turnIndex = value; }
     }
 
+    private bool isRotating = false;
+
     public static PlayerController Instance;
 
     private void Awake() => Instance = this;
@@ -29,18 +31,17 @@ public class PlayerController : MonoBehaviour
 
     private void Mover()
     {
-        playerRigidbody.velocity = transform.forward * speed;
+        playerRigidbody.velocity = new Vector3(transform.forward.x * speed, playerRigidbody.velocity.y, transform.forward.z * speed);
     }
 
     public void StartTurn()
     {
+        if (isRotating) return;
+
         Turn activeTurn = allTurns[TurnIndex];
 
         RotatePlayer(activeTurn.TurnTransform.rotation);
         activeTurn.SetInActive();
-
-        TurnIndex++;
-
     }
 
     private void RotatePlayer(Quaternion newRotation)
@@ -49,7 +50,11 @@ public class PlayerController : MonoBehaviour
 
         IEnumerator RotatePlayerCor()
         {
+            isRotating = true;
+            float tempSpeed = speed;
+            speed = 0f;
             Quaternion startRotation = transform.rotation;
+
 
             for (float t = 0; t < 1; t += Time.deltaTime / rotateTime)
             {
@@ -57,6 +62,10 @@ public class PlayerController : MonoBehaviour
                 yield return null;
             }
             transform.rotation = newRotation;
+            speed = tempSpeed;
+            isRotating = false;
+
+            TurnIndex++;
         }
     }
 
