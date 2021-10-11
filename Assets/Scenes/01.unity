@@ -382,7 +382,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 49eed7940f5573a40ae9c8d7740a6942, type: 3}
       propertyPath: m_Name
-      value: Standard Run
+      value: SantaRunAnim
       objectReference: {fileID: 0}
     - target: {fileID: 1082271958561512970, guid: 49eed7940f5573a40ae9c8d7740a6942, type: 3}
       propertyPath: m_Name
